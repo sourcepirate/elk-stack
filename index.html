@@ -152,6 +152,44 @@
 
 					</textarea>
 				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## Logstash
+
+						* It's a data ingestion tool. Ingests data from multiple sources.
+						* A Logstash pipeline has two required elements, input and output, and one optional element, filter. 
+						  The input plugins consume data from a source, the filter plugins modify the data as you specify,
+						   and the output plugins write the data to a destination.
+
+						```
+						bin/logstash -e 'input { stdin { } } output { stdout {} }'
+						```
+
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## Typical Logstash Config
+
+						```
+						input { stdin { } }
+
+							filter {
+							grok {
+								match => { "message" => "%{COMBINEDAPACHELOG}" }
+							}
+							date {
+								match => [ "timestamp" , "dd/MMM/yyyy:HH:mm:ss Z" ]
+							}
+							}
+
+							output {
+							elasticsearch { hosts => ["localhost:9200"] }
+							stdout { codec => rubydebug }
+							}
+						```
+					</textarea>
+				</section>
 			</div>
 		</div>
 
